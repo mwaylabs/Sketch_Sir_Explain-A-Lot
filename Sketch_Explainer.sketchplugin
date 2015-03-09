@@ -1,0 +1,40 @@
+// Sketch Explainer Plugin (shift ctrl e)
+/*
+  Original code from https://github.com/TobiHaas/Sketch_Explainer.git
+  Fixed for Sketch 3.2 by Bohemian Coding
+*/
+
+function alert(msg, title) {
+  title = title || "alert";
+  var app = [NSApplication sharedApplication];
+  [app displayDialog:msg withTitle:title];
+}
+
+function addNewDescriptionGroup()
+{
+if ([selection count] === 0) {
+log(selection);
+
+  alert('You need to select at least one layer', 'Selection is empty');
+} else {
+
+    var artboard = [[[doc currentPage] artboards] lastObject];
+log(artboard);
+
+//var groupFrame = NSMakeRect(0, 0, 500, 500);
+//var newGroup = [[MSLayerGroup alloc] initWithFrame:groupFrame];
+//newGroup.name = "flex button";
+//[artboard addLayers:[newGroup]]
+
+
+alert(artboard, "test");
+    // var currentLayer = [selection objectAtIndex:i];
+    // var parentGroup = [currentLayer parentGroup];
+  }
+}
+
+function start()
+{
+  addNewDescriptionGroup();
+}
+start();
