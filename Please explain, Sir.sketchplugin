@@ -1,0 +1,66 @@
+// Sketch Sir Explain-A-Lot (shift ctrl e)
+/*
+  Original code from https://github.com/TobiHaas/Sketch_Explainer.git
+  Fixed for Sketch 3.2 by Bohemian Coding
+*/
+
+function alert(msg, title) {
+  title = title || "alert";
+  var app = [NSApplication sharedApplication];
+  [app displayDialog:msg withTitle:title];
+}
+
+
+function decideWhatToDo()
+{
+  if ([selection count] === 0)
+  {
+    log(selection);
+
+    alert('You need to select at least one layer', 'Selection is empty');
+  }
+    else
+  {
+    var currentLayer = [selection objectAtIndex:0],
+    currentArtboard = doc.currentPage().currentArtboard();
+
+        if(0 != 0)
+        {
+          hideOrShowLayer(currentLayer, currentArtboard);
+        }
+        else
+        {
+          addNewExplanationGroup(currentLayer, currentArtboard);
+        }
+    }
+}
+
+function hideOrShowLayer(currentLayer, currentArtboard)
+{
+  alert(currentLayer, currentArtboard);
+}
+
+function addNewExplanationGroup(currentLayer, currentArtboard)
+{
+  // Create group and background
+  var groupFrame = NSMakeRect(0, 0, 500, 500);
+  var newGroup = [[MSLayerGroup alloc] initWithFrame:groupFrame];
+  newGroup.name = "_Explanation_";
+
+  [currentArtboard addLayers:[newGroup]];
+
+  // Create Background
+  var rectFrame = NSMakeRect(0, 0, 600, 600);
+  var newRect = [[MSRectangleShape alloc] initWithFrame:rectFrame];
+  newRect.name = "BG";
+  var rectGroup = newRect.embedInShapeGroup();
+  var fill = rectGroup.style().fills().addNewStylePart();
+
+  [newGroup addLayers:[rectGroup]];
+}
+
+function start()
+{
+  decideWhatToDo();
+}
+start();
