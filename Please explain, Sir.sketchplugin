@@ -10,57 +10,80 @@ function alert(msg, title) {
   [app displayDialog:msg withTitle:title];
 }
 
-
-function decideWhatToDo()
+function startTheMagic()
 {
   if ([selection count] === 0)
   {
     log(selection);
 
-    alert('You need to select at least one layer', 'Selection is empty');
+    alert('You need to select at least one layer or artboard', 'Selection is empty');
   }
     else
   {
-    var currentLayer = [selection objectAtIndex:0],
-    currentArtboard = doc.currentPage().currentArtboard();
+      current_selection = selection[0];
+      var currentArtboard = doc.currentPage().currentArtboard();
 
-        if(0 != 0)
-        {
-          hideOrShowLayer(currentLayer, currentArtboard);
-        }
-        else
-        {
-          addNewExplanationGroup(currentLayer, currentArtboard);
-        }
+      if (current_selection.className() == "MSArtboardGroup") {
+        var parent = current_selection;
+      } else {
+        var parent = [current_selection parentGroup];
+      }
+
+      var artboard_copy = [parent duplicate];
+      [[artboard_copy frame] addY:[[parent frame] height] + 100]
+      [artboard_copy select:true byExpandingSelection:false]
+
+      addNewExplanationGroup(currentArtboard, artboard_copy);
     }
 }
 
-function hideOrShowLayer(currentLayer, currentArtboard)
+function addNewExplanationGroup(currentArtboard, artboard_copy)
 {
-  alert(currentLayer, currentArtboard);
-}
+  var artboardDimensions = currentArtboard.frame();
 
-function addNewExplanationGroup(currentLayer, currentArtboard)
-{
+  artboard_copy.name = "$_$Expl_" + currentArtboard.name;
+
   // Create group and background
-  var groupFrame = NSMakeRect(0, 0, 500, 500);
+  var groupFrame = NSMakeRect(0, 0, artboardDimensions.width(), artboardDimensions.height());
   var newGroup = [[MSLayerGroup alloc] initWithFrame:groupFrame];
-  newGroup.name = "_Explanation_";
 
-  [currentArtboard addLayers:[newGroup]];
+  newGroup.name = "$_$Explanation";
+  [artboard_copy addLayers:[newGroup]];
+
 
   // Create Background
-  var rectFrame = NSMakeRect(0, 0, 600, 600);
+  var rectFrame = NSMakeRect(0, 0, artboardDimensions.width(), artboardDimensions.height());
   var newRect = [[MSRectangleShape alloc] initWithFrame:rectFrame];
   newRect.name = "BG";
   var rectGroup = newRect.embedInShapeGroup();
+  [[[rectGroup style] contextSettings] setOpacity:(60/100)];
   var fill = rectGroup.style().fills().addNewStylePart();
-
   [newGroup addLayers:[rectGroup]];
+
+
+  // Create Example Text Layer
+  var exampleGroupFrame = NSMakeRect(0, 0, artboardDimensions.width(), artboardDimensions.height());
+  var newExampleGroup = [[MSLayerGroup alloc] initWithFrame:exampleGroupFrame];
+  newExampleGroup.name = "_Example";
+  [newGroup addLayers:[newExampleGroup]];
+
+  // Create Example Text
+  //var newText = [MSTextLayer];
+  //newText.name = "Test";
+  //var textGroup = newText.embedInShapeGroup();
+  //[newExampleGroup addLayers:[textGroup]];
+
+  // Create Close Icon
+  var closeIconGroupFrame = NSMakeRect(artboardDimensions.width() - 100, artboardDimensions.height() - 100, 50, 50);
+  var newCloseIconGroup = [[MSLayerGroup alloc] initWithFrame:closeIconGroupFrame];
+  newCloseIconGroup.name = "_Close";
+  [newGroup addLayers:[newCloseIconGroup]];
+
+  // Create Show Icon on current Artboard
+  var showIconGroupFrame = NSMakeRect(artboardDimensions.width() - 100, artboardDimensions.height() - 100, 50, 50);
+  var newShowIconGroup = [[MSLayerGroup alloc] initWithFrame:showIconGroupFrame];
+  newShowIconGroup.name = "$_$ShowDescrICON";
+  [currentArtboard addLayers:[newShowIconGroup]];
 }
 
-function start()
-{
-  decideWhatToDo();
-}
-start();
+startTheMagic();
