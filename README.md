@@ -1,8 +1,8 @@
 # Sketch Sir Explain-A-Lot
 
-Hey there.
+Hey World.
 
-Plugin for explaining your awesome Sketch Designs.
+I'm Sir Explain-A-Lot, a small plugin for explaining your awesome Sketch Designs.
 
 
 
