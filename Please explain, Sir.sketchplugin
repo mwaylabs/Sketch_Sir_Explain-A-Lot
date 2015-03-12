@@ -43,7 +43,7 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
 {
   var artboardDimensions = currentArtboard.frame();
 
-  artboard_copy.name = "$$E_" + currentArtboard.name();
+  artboard_copy.name = "$E$ " + currentArtboard.name();
 
   /*Create group and background*/
   var groupFrame = NSMakeRect(0, 0, artboardDimensions.width(), artboardDimensions.height());
@@ -58,26 +58,41 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
   var newRect = [[MSRectangleShape alloc] initWithFrame:rectFrame];
   newRect.name = "BG";
   var rectGroup = newRect.embedInShapeGroup();
-  var opacity = rectGroup.style().contextSettings().setOpacity(70/100);
+  var opacity = rectGroup.style().contextSettings().setOpacity(60/100);
   var fill = rectGroup.style().fills().addNewStylePart();
+  setColor(rectGroup, "#000000", 1.0);
+
   [newGroup addLayers:[rectGroup]];
 
 
   /*Create Example Text Layer*/
-  var exampleGroupFrame = NSMakeRect(0, 0, artboardDimensions.width(), artboardDimensions.height());
+  var exampleGroupFrame = NSMakeRect(250, 250, 435, 40);
   var newExampleGroup = [[MSLayerGroup alloc] initWithFrame:exampleGroupFrame];
   newExampleGroup.name = "_Comment";
   [newGroup addLayers:[newExampleGroup]];
 
   /*Create Example Text*/
-  var rectTextFrame = NSMakeRect(250, 250, 100, 100);
+  var rectTextFrame = NSMakeRect(50, 0, 250, 50);
   var newText = [[MSTextLayer alloc] initWithFrame:rectTextFrame];
   newText.name = "Test";
   newText.setStringValue("Example for a simple comment");
-  newText.setFontSize(26);
+  newText.setFontSize(28);
   setColor(newText, "#ffffff", 1.0);
   /*var textGroup = newText.embedInShapeGroup();*/
   [newExampleGroup addLayers:[newText]];
+
+  /*Create Example Poing*/
+
+  var exampleOvalFrame = NSMakeRect(0, 0, 40, 40);
+  var newExampleOvalFrame = [[MSOvalShape alloc] initWithFrame:exampleOvalFrame];
+  newExampleOvalFrame.name = "DOT";
+  var exampleOvalGroup = newExampleOvalFrame.embedInShapeGroup();
+  var fill = exampleOvalGroup.style().fills().addNewStylePart();
+  setColor(exampleOvalGroup, "#b4c717", 1.0);
+
+  [newExampleGroup addLayers:[exampleOvalGroup]];
+
+
 
   /*Create Close Icon*/
   var closeIconGroupFrame = NSMakeRect(artboardDimensions.width() - 125, artboardDimensions.height() - 125, 75, 75);
