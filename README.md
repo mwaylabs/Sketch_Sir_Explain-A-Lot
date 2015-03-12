@@ -7,7 +7,7 @@ Plugin for explaining your awesome Sketch Designs.
 
 
 By pressing ctrl+shift+e this will happen:
-- Sir Explain-A-Lot will create a rounded icon with a "?" in it on your current artboard
+- Sir Explain-A-Lot will create a rounded icon with an "?" in it on your current artboard
 - Sir Explain-A-Lot will copy your current artboard with all content
 - Sir Explain-A-Lot will create a new half-transparent layer on the copied artboard with an "X"-Icon and a example of an explaining comment
 
