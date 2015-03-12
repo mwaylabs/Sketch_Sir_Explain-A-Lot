@@ -19,4 +19,4 @@ This makes communication a lot easier and helps your customers and developers to
 
 
 Enjoy your personal experience with Sir Explain-A-Lot
-It's an early version, don't judge me on any missing features.
+It's an early version, don't judge me on any missing feature.
