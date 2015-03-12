@@ -4,11 +4,7 @@
   Fixed for Sketch 3.2 by Bohemian Coding
 */
 
-function alert(msg, title) {
-  title = title || "alert";
-  var app = [NSApplication sharedApplication];
-  [app displayDialog:msg withTitle:title];
-}
+#import 'library/common.js'
 
 function startTheMagic()
 {
@@ -29,9 +25,15 @@ function startTheMagic()
         var parent = [current_selection parentGroup];
       }
 
+      /*var newPage = [doc addBlankPage];
+      newPage.name = "$$Explanation";*/
+
       var artboard_copy = [parent duplicate];
-      [[artboard_copy frame] addY:[[parent frame] height] + 100]
-      [artboard_copy select:true byExpandingSelection:false]
+      [[artboard_copy frame] addY:[[parent frame] height] + 100 ];
+      [[artboard_copy frame] addX: 100 ];
+      [artboard_copy select:true byExpandingSelection:false];
+
+      /*var artboardTest = [artboard_copy cut];*/
 
       addNewExplanationGroup(currentArtboard, artboard_copy);
     }
@@ -41,13 +43,13 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
 {
   var artboardDimensions = currentArtboard.frame();
 
-  artboard_copy.name = "$_$Expl_" + currentArtboard.name();
+  artboard_copy.name = "$$E_" + currentArtboard.name();
 
   /*Create group and background*/
   var groupFrame = NSMakeRect(0, 0, artboardDimensions.width(), artboardDimensions.height());
   var newGroup = [[MSLayerGroup alloc] initWithFrame:groupFrame];
 
-  newGroup.name = "$_$Explanation";
+  newGroup.name = "$$Explanation";
   [artboard_copy addLayers:[newGroup]];
 
 
@@ -64,41 +66,46 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
   /*Create Example Text Layer*/
   var exampleGroupFrame = NSMakeRect(0, 0, artboardDimensions.width(), artboardDimensions.height());
   var newExampleGroup = [[MSLayerGroup alloc] initWithFrame:exampleGroupFrame];
-  newExampleGroup.name = "_Example";
+  newExampleGroup.name = "_Comment";
   [newGroup addLayers:[newExampleGroup]];
 
   /*Create Example Text*/
-  /*var newText = [MSTextLayer];
+  var rectTextFrame = NSMakeRect(100, 100, 100, 100);
+  var newText = [[MSTextLayer alloc] initWithFrame:rectTextFrame];
   newText.name = "Test";
-  var textGroup = newText.embedInShapeGroup();
-  [newExampleGroup addLayers:[textGroup]];*/
+  newText.setStringValue("Example for a simple comment");
+  newText.setFontSize(20);
+  /*var textGroup = newText.embedInShapeGroup();*/
+  [newExampleGroup addLayers:[newText]];
 
   /*Create Close Icon*/
-  var closeIconGroupFrame = NSMakeRect(artboardDimensions.width() - 200, artboardDimensions.height() - 200, 100, 100);
+  var closeIconGroupFrame = NSMakeRect(artboardDimensions.width() - 125, artboardDimensions.height() - 125, 75, 75);
   var newCloseIconGroup = [[MSLayerGroup alloc] initWithFrame:closeIconGroupFrame];
   newCloseIconGroup.name = "_Close";
   [newGroup addLayers:[newCloseIconGroup]];
 
-  var closeIconFrame = NSMakeRect(0, 0, 100, 100);
+  var closeIconFrame = NSMakeRect(0, 0, 75, 75);
   var newCloseIconFrame = [[MSOvalShape alloc] initWithFrame:closeIconFrame];
   newCloseIconFrame.name = "CloseIcon";
   var closeIconGroup = newCloseIconFrame.embedInShapeGroup();
   var fill = closeIconGroup.style().fills().addNewStylePart();
+  setColor(closeIconGroup, "#b4c717", 1.0);
+
   [newCloseIconGroup addLayers:[closeIconGroup]];
 
 
   /* Create Show Icon on current Artboard*/
-  var showIconGroupFrame = NSMakeRect(artboardDimensions.width() - 200, artboardDimensions.height() - 200, 100, 100);
+  var showIconGroupFrame = NSMakeRect(artboardDimensions.width() - 125, artboardDimensions.height() - 125, 75, 75);
   var newShowIconGroup = [[MSLayerGroup alloc] initWithFrame:showIconGroupFrame];
-  newShowIconGroup.name = "$_$ShowDescrICON";
+  newShowIconGroup.name = "$$ShowDescrICON";
   [currentArtboard addLayers:[newShowIconGroup]];
 
-  var showIconFrame = NSMakeRect(0, 0, 100, 100);
+  var showIconFrame = NSMakeRect(0, 0, 75, 75);
   var newShowIconFrame = [[MSOvalShape alloc] initWithFrame:showIconFrame];
   newShowIconFrame.name = "ShowIcon";
   var showIconGroup = newShowIconFrame.embedInShapeGroup();
   var fill = showIconGroup.style().fills().addNewStylePart();
-
+  setColor(showIconGroup, "#b4c717", 1.0);
   [newShowIconGroup addLayers:[showIconGroup]];
 
   log("Well done!");
