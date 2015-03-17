@@ -18,5 +18,6 @@ Just hotspot the small "?"-icon on your screen to link to the explaining screen 
 This makes communication a lot easier and helps your customers and developers to understand your great design much easier.
 
 
-Enjoy your personal experience with Sir Explain-A-Lot
+Enjoy your personal experience with Sir Explain-A-Lot.
+
 It's an early version, so please don't judge on any missing features.
