@@ -6,7 +6,7 @@ I'm Sir Explain-A-Lot, a small plugin for explaining your awesome Sketch Designs
 
 ![alt tag](https://dl.dropboxusercontent.com/u/44855183/m-way/For%20Sketch%20Sir%20Explain-A-Lot/animation.gif)
 
-By pressing ctrl+shift+e or start the Plugin through the menu bar this will happen:
+By pressing Ctrl + Shift + E or by starting the Plugin through the menu bar this is going to happen:
 
 - Sir Explain-A-Lot will create a rounded icon with an "?" in it on your current artboard
 - Sir Explain-A-Lot will copy your current artboard with all contents
