@@ -25,19 +25,35 @@ function startTheMagic()
         var parent = [current_selection parentGroup];
       }
 
-      /*var newPage = [doc addBlankPage];
-      newPage.name = "$$Explanation";*/
-
-      var artboard_copy = [parent duplicate];
+      /*var artboard_copy = [parent duplicate];
       [[artboard_copy frame] addY:[[parent frame] height] + 100 ];
       [[artboard_copy frame] addX: 100 ];
-      [artboard_copy select:true byExpandingSelection:false];
+      [artboard_copy select:true byExpandingSelection:false];*/
 
-      /*var artboardTest = [artboard_copy cut];*/
+      var width = currentArtboard.frame().width();
+
+      artboards = doc.currentPage().artboards();
+
+
+
+      var artboard_copy = [parent duplicate];
+      [[artboard_copy frame] addX: width + 50 ];
+
+      // Move all artboards that are next to the selected one
+      for (var i = 0; i < artboards.count(); i++) {
+      	// only move artboards on the same y position
+      	if (artboards[i] != currentArtboard) {
+      		if (artboards[i].frame().y() == currentArtboard.frame().y() && artboards[i].frame().x() > currentArtboard.frame().x()) {
+      			var newX = artboards[i].frame().x() + width + 50;
+      			artboards[i].frame().setX(newX);
+      		}
+      	}
+      }
 
       addNewExplanationGroup(currentArtboard, artboard_copy);
     }
 }
+
 
 function addNewExplanationGroup(currentArtboard, artboard_copy)
 {
@@ -57,9 +73,12 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
   var rectFrame = NSMakeRect(0, 0, artboardDimensions.width(), artboardDimensions.height());
   var newRect = [[MSRectangleShape alloc] initWithFrame:rectFrame];
   newRect.name = "BG";
-  var rectGroup = newRect.embedInShapeGroup();
+  var rectGroup = MSShapeGroup.shapeWithPath(newRect);
+  log("Vor opacity! RectGroup: " + rectGroup + "New Rect: " + newRect);
   var opacity = rectGroup.style().contextSettings().setOpacity(60/100);
+  log("Vor fill!");
   var fill = rectGroup.style().fills().addNewStylePart();
+  log("Nach fill!");
   setColor(rectGroup, "#000000", 1.0);
 
   [newGroup addLayers:[rectGroup]];
@@ -78,7 +97,6 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
   newText.setStringValue("Example for a simple comment");
   newText.setFontSize(28);
   setColor(newText, "#ffffff", 1.0);
-  /*var textGroup = newText.embedInShapeGroup();*/
   [newExampleGroup addLayers:[newText]];
 
   /*Create Example Poing*/
@@ -86,7 +104,7 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
   var exampleOvalFrame = NSMakeRect(0, 0, 40, 40);
   var newExampleOvalFrame = [[MSOvalShape alloc] initWithFrame:exampleOvalFrame];
   newExampleOvalFrame.name = "DOT";
-  var exampleOvalGroup = newExampleOvalFrame.embedInShapeGroup();
+  var exampleOvalGroup = MSShapeGroup.shapeWithPath(newExampleOvalFrame);
   var fill = exampleOvalGroup.style().fills().addNewStylePart();
   setColor(exampleOvalGroup, "#b4c717", 1.0);
 
@@ -103,27 +121,27 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
   var closeIconFrame = NSMakeRect(0, 0, 75, 75);
   var newCloseIconFrame = [[MSOvalShape alloc] initWithFrame:closeIconFrame];
   newCloseIconFrame.name = "CloseIcon";
-  var closeIconGroup = newCloseIconFrame.embedInShapeGroup();
+  var closeIconGroup = MSShapeGroup.shapeWithPath(newCloseIconFrame);
   var fill = closeIconGroup.style().fills().addNewStylePart();
   setColor(closeIconGroup, "#b4c717", 1.0);
 
   [newCloseIconGroup addLayers:[closeIconGroup]];
 
-  var closeIconLine = NSMakeRect(4, 25, 50, 8);
+  var closeIconLine = NSMakeRect(13, 34, 50, 8);
   var newCloseIconLineFrame = [[MSRectangleShape alloc] initWithFrame:closeIconLine];
   newCloseIconLineFrame.name = "CloseIconLine";
   newCloseIconLineFrame.setRotation(45);
-  var closeIconLineGroup = newCloseIconLineFrame.embedInShapeGroup();
+  var closeIconLineGroup = MSShapeGroup.shapeWithPath(newCloseIconLineFrame);
   var fill = closeIconLineGroup.style().fills().addNewStylePart();
   setColor(closeIconLineGroup, "#ffffff", 1.0);
 
   [newCloseIconGroup addLayers:[closeIconLineGroup]];
 
-  var closeIconLine2 = NSMakeRect(4, 25, 50, 8);
+  var closeIconLine2 = NSMakeRect(13, 34, 50, 8);
   var newCloseIconLine2Frame = [[MSRectangleShape alloc] initWithFrame:closeIconLine2];
   newCloseIconLine2Frame.name = "CloseIconLine";
   newCloseIconLine2Frame.setRotation(135);
-  var closeIconLine2Group = newCloseIconLine2Frame.embedInShapeGroup();
+  var closeIconLine2Group = MSShapeGroup.shapeWithPath(newCloseIconLine2Frame);
   var fill = closeIconLine2Group.style().fills().addNewStylePart();
   setColor(closeIconLine2Group, "#ffffff", 1.0);
 
@@ -139,7 +157,7 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
   var showIconFrame = NSMakeRect(0, 0, 75, 75);
   var newShowIconFrame = [[MSOvalShape alloc] initWithFrame:showIconFrame];
   newShowIconFrame.name = "ShowIcon";
-  var showIconGroup = newShowIconFrame.embedInShapeGroup();
+  var showIconGroup = MSShapeGroup.shapeWithPath(newShowIconFrame);
   var fill = showIconGroup.style().fills().addNewStylePart();
   setColor(showIconGroup, "#b4c717", 1.0);
   [newShowIconGroup addLayers:[showIconGroup]];
@@ -151,7 +169,6 @@ function addNewExplanationGroup(currentArtboard, artboard_copy)
   newOpenText.setStringValue("?");
   newOpenText.setFontSize(50);
   setColor(newOpenText, "#ffffff", 1.0);
-  /*var textGroup = newText.embedInShapeGroup();*/
   [newShowIconGroup addLayers:[newOpenText]];
 
 
