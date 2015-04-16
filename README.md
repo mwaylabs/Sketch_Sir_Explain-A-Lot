@@ -4,7 +4,7 @@ Hey World.
 
 I'm Sir Explain-A-Lot, a small plugin for explaining your awesome Sketch Designs.
 
-![alt tag](https://dl.dropboxusercontent.com/u/44855183/m-way/For%20Sketch%20Sir%20Explain-A-Lot/animation.gi)
+![alt tag](https://dl.dropboxusercontent.com/u/44855183/m-way/For%20Sketch%20Sir%20Explain-A-Lot/animation.gif)
 
 By pressing ctrl+shift+e or start the Plugin through the menu bar this will happen:
 
